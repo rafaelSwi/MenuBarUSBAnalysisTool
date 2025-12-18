@@ -10,7 +10,6 @@ import SwiftUI
 
 @Observable
 class LogTabViewModel {
-
     var fileManager: SelectedFileManager?
 
     var logs: [(log: ExportedLog.LogEntry, previous: ExportedLog.LogEntry?)] {
@@ -26,10 +25,22 @@ class LogTabViewModel {
         }
 
         var result: [(ExportedLog.LogEntry, ExportedLog.LogEntry?)] = []
-        for i in 0..<sorted.count {
+        for i in 0 ..< sorted.count {
             let prev = (i > 0) ? sorted[i - 1] : nil
             result.append((sorted[i], prev))
         }
         return result
     }
+    
+    var totalLogAmount: String {
+       let amount = fileManager?.log?.logs.count
+        
+        if amount == nil {
+            return "no_info".localized
+        } else {
+            return "\(amount ?? 0)"
+        }
+        
+    }
+    
 }

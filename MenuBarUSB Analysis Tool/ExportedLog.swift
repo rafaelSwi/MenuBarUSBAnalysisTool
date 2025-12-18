@@ -26,7 +26,7 @@ struct ExportedLog: Codable {
         let productId: Int
         let locationId: Int?
         let serial: String? = nil
-        
+
         var id: String { disposableId }
 
         enum CodingKeys: String, CodingKey {

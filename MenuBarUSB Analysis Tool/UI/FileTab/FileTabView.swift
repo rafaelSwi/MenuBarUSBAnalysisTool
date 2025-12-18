@@ -8,19 +8,24 @@
 import SwiftUI
 
 struct FileTabView: View {
-    
     @Environment(\.selectedFileManager) var fileManager
     @State private var vm = FileTabViewModel()
-    
+
     var body: some View {
         VStack {
-            
             Button("select_file") {
                 vm.openFile()
             }
+            .font(.system(size: 35, weight: .thin))
+            .buttonStyle(.plain)
+            .foregroundStyle(.blue)
+            .padding()
+            .background(.gray.opacity(0.1))
+            .cornerRadius(5)
             
-            Text(fileManager.log == nil ? "no_file_selected" : "loaded")
-            
+            if vm.selectedFile {
+                Text("file_loaded")
+            }
             
         }
         .onAppear {

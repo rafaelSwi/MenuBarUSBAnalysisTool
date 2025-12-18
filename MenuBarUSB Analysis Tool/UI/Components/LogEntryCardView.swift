@@ -11,7 +11,6 @@ struct LogEntryCardView: View {
     let log: ExportedLog.LogEntry
     let previous: ExportedLog.LogEntry?
 
-    // MARK: - Timestamp → Date
     private func parseDate(_ string: String) -> Date? {
         let f = DateFormatter()
         f.dateFormat = "dd-MM-yyyy HH:mm:ss:SSS"
@@ -19,14 +18,12 @@ struct LogEntryCardView: View {
         return f.date(from: string)
     }
 
-    // MARK: - Format timestamp into readable text
     private func prettyDate(_ date: Date) -> String {
         let f = DateFormatter()
         f.dateFormat = "dd MMM yyyy • HH:mm:ss"
         return f.string(from: date)
     }
 
-    // MARK: - Time since last log
     private func timeSinceLast(_ previous: Date, _ current: Date) -> String {
         let interval = current.timeIntervalSince(previous)
 
@@ -43,28 +40,20 @@ struct LogEntryCardView: View {
         let previousDate = previous != nil ? parseDate(previous!.timestamp) : nil
 
         InfoCard(
-            icon: log.connect ? "arrow.down.circle.fill" : "arrow.up.circle.fill",
+            icon: log.connect ? "circle.circle.fill" : "circle.circle",
+            imageColor: log.connect ? .green : .red,
             title: log.name,
-            subtitle: log.connect ? "Connected" : "Disconnected"
+            subtitle: log.connect ? "connected" : "disconnected",
+            lightbulb: true
         ) {
-
             if let d = currentDate {
-                InfoRow(icon: "clock", title: "Timestamp", value: prettyDate(d))
+                InfoRow(title: "timestamp", value: prettyDate(d))
             } else {
-                InfoRow(icon: "clock", title: "Timestamp", value: log.timestamp)
+                InfoRow(title: "timestamp", value: log.timestamp)
             }
 
-            InfoRow(icon: "number", title: "Disposable ID", value: log.disposableId)
-
-            if
-                let prev = previousDate,
-                let cur = currentDate
-            {
-                InfoRow(
-                    icon: "timer",
-                    title: "Since Last",
-                    value: timeSinceLast(prev, cur)
-                )
+            if let prev = previousDate, let cur = currentDate {
+                InfoRow(title: "since_last", value: timeSinceLast(prev, cur))
             }
         }
     }

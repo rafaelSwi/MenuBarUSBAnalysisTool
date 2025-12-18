@@ -10,33 +10,32 @@ import SwiftUI
 
 @Observable
 class MetadataTabViewModel {
-    
     var fileManager: SelectedFileManager?
-    
+
     var menuBarUsbVersion: String {
         if let v = fileManager?.log?.metadata.appVersion {
             return v
         } else {
-            return "unknown"
+            return "unknown".localized
         }
     }
-    
+
     var machineModel: String {
         if let m = fileManager?.log?.metadata.machineModel {
             return m
         } else {
-            return "unknown"
+            return "unknown".localized
         }
     }
-    
+
     var rawExportedAt: String {
         if let ea = fileManager?.log?.metadata.exportedAt {
             return ea
         } else {
-            return "unknown"
+            return "unknown".localized
         }
     }
-    
+
     var readableExportedAt: String {
         let raw = rawExportedAt
         let formatter = DateFormatter()
@@ -57,22 +56,27 @@ class MetadataTabViewModel {
         return out.string(from: date)
     }
     
+    var rawMacVersion: String {
+        return fileManager?.log?.metadata.osVersion ?? "no_info".localized
+    }
+
     var majorVersion: Int {
         let versionString = fileManager?.log?.metadata.osVersion
-        
+
         if versionString == nil {
             return 0
         }
-        
+
         let components = versionString?.split(separator: ".")
-        
+
         guard let majorString = components?.first,
-              let major = Int(majorString) else {
+              let major = Int(majorString)
+        else {
             return 0
         }
         return major
     }
-    
+
     var macLogo: String {
         switch majorVersion {
         case 13: return "ventura"
@@ -82,7 +86,7 @@ class MetadataTabViewModel {
         default: return "generic"
         }
     }
-    
+
     var macVersionName: String {
         switch majorVersion {
         case 13: return "macOS Ventura"
@@ -92,5 +96,4 @@ class MetadataTabViewModel {
         default: return fileManager?.log?.metadata.osVersion ?? "\(majorVersion)"
         }
     }
-    
 }

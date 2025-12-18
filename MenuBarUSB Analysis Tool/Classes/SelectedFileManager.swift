@@ -5,8 +5,8 @@
 //  Created by Rafael Neuwirth on 05/12/25.
 //
 
-import Foundation
 import Combine
+import Foundation
 
 @Observable
 class SelectedFileManager {

@@ -8,17 +8,17 @@
 import SwiftUI
 
 struct DevicesTabView: View {
-    
     @Environment(\.selectedFileManager) var fileManager
     @State private var vm = DevicesTabViewModel()
-    
+
     var body: some View {
-        VStack {
             ScrollView {
-                ForEach(vm.devices, id: \.self) { device in
-                    DeviceCardView(dev: device)
+                VStack(spacing: 14) {
+                    ForEach(vm.devices, id: \.self) { device in
+                        DeviceCardView(dev: device)
+                    }
                 }
-            }
+                .padding()
         }
         .onAppear {
             vm.fileManager = fileManager

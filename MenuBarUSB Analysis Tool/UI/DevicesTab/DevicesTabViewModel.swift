@@ -10,11 +10,9 @@ import SwiftUI
 
 @Observable
 class DevicesTabViewModel {
-    
     var fileManager: SelectedFileManager?
-    
+
     var devices: [ExportedLog.Device] {
         return fileManager?.log?.devices ?? []
     }
-    
 }

@@ -6,27 +6,46 @@
 //
 
 import SwiftUI
+import AppKit
 
 struct InfoRow: View {
-    let icon: String
     let title: String
     let value: String
-
+    
+    @State private var isCopied = false
+    
+    init(title: String, value: String) {
+        self.title = title
+        self.value = value
+    }
+    
     var body: some View {
         HStack(alignment: .firstTextBaseline, spacing: 8) {
-            Image(systemName: icon)
-                .font(.system(size: 12))
-                .foregroundStyle(.secondary)
-                .frame(width: 28)
-
-            Text(title + ":")
+            Text(title.localized + ":")
                 .font(.subheadline)
-                .foregroundStyle(.secondary)
-
-            Text(value)
+                .foregroundColor(.secondary)
+            
+            Text(isCopied ? "copied".localized : value)
                 .font(.subheadline)
-
+                .foregroundColor(.primary)
+            
             Spacer()
+        }
+        .contentShape(Rectangle())
+        .onTapGesture {
+            copyToClipboard()
+        }
+    }
+    
+    private func copyToClipboard() {
+        let pasteboard = NSPasteboard.general
+        pasteboard.clearContents()
+        pasteboard.setString(value, forType: .string)
+        
+        isCopied = true
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+            isCopied = false
         }
     }
 }

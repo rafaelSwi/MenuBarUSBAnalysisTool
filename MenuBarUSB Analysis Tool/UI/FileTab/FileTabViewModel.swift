@@ -5,16 +5,16 @@
 //  Created by Rafael Neuwirth on 05/12/25.
 //
 
-import Combine
 import AppKit
-import UniformTypeIdentifiers
+import Combine
 import SwiftUI
+import UniformTypeIdentifiers
 
 @Observable
 class FileTabViewModel {
-    
     var fileManager: SelectedFileManager?
-    
+    var selectedFile: Bool = false
+
     func openFile() {
         let panel = NSOpenPanel()
         panel.allowedContentTypes = [.json, .plainText]
@@ -36,7 +36,8 @@ class FileTabViewModel {
             if url.pathExtension.lowercased() == "txt" {
                 if let jsonString = String(data: data, encoding: .utf8)?
                     .trimmingCharacters(in: .whitespacesAndNewlines)
-                    .data(using: .utf8) {
+                    .data(using: .utf8)
+                {
                     jsonData = jsonString
                 } else {
                     throw NSError(domain: "TXT inválido", code: 100)
@@ -50,6 +51,7 @@ class FileTabViewModel {
                 DispatchQueue.main.async {
                     self.fileManager?.log = decoded
                     self.fileManager?.errorMessage = nil
+                    self.selectedFile = true
                 }
             } catch let DecodingError.keyNotFound(key, context) {
                 print("⚠️ Chave ausente:", key.stringValue, context.debugDescription)
@@ -58,12 +60,11 @@ class FileTabViewModel {
             } catch {
                 print("⚠️ Erro geral:", error.localizedDescription)
             }
-            
+
         } catch {
             DispatchQueue.main.async {
                 self.fileManager?.errorMessage = "Falha ao carregar: \(error.localizedDescription)"
             }
         }
     }
-    
 }

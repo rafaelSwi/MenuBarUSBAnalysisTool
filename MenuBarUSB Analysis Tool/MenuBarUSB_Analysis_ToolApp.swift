@@ -9,15 +9,14 @@ import SwiftUI
 
 @main
 struct MenuBarUSB_Analysis_ToolApp: App {
-    
     var fileManager = SelectedFileManager()
-    
+
     var body: some Scene {
         WindowGroup {
             CentralView()
                 .environment(\.selectedFileManager, fileManager)
                 .environment(\.colorScheme, .dark)
         }
-        .windowStyle(.hiddenTitleBar)
+        .windowStyle(.titleBar)
     }
 }

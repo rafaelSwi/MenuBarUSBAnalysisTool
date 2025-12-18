@@ -8,12 +8,10 @@
 import SwiftUI
 
 struct CentralView: View {
-    
     @State private var vm = CentralViewModel()
     @Environment(\.selectedFileManager) var fileManager
-    
+
     func categoryButton(tab: Tab, label: String) -> some View {
-        
         var inactive: Bool {
             if tab == .file {
                 return false
@@ -21,7 +19,7 @@ struct CentralView: View {
                 return !vm.isFileSelected
             }
         }
-        
+
         return HStack {
             Text(label.localized)
                 .font(.system(size: 14.5))
@@ -48,8 +46,7 @@ struct CentralView: View {
             }
         }
     }
-    
-    
+
     var body: some View {
         ZStack {
             CustomBackground()
@@ -60,32 +57,31 @@ struct CentralView: View {
                     categoryButton(tab: .devices, label: "devices_tab")
                     categoryButton(tab: .metadata, label: "metadata_tab")
                 }
-                
+                .frame(maxWidth: 600)
+                .padding(.top, 15)
+
                 Spacer()
-                
+
                 Group {
-                    
                     if vm.tab == .file {
                         FileTabView()
                     }
-                    
+
                     if vm.tab == .logs {
                         LogTabView()
                     }
-                    
+
                     if vm.tab == .devices {
                         DevicesTabView()
                     }
-                    
+
                     if vm.tab == .metadata {
                         MetadataTabView()
                     }
-                    
                 }
                 .environment(\.selectedFileManager, fileManager)
-                
+
                 Spacer()
-                
             }
         }
         .frame(minWidth: 600, minHeight: 500)

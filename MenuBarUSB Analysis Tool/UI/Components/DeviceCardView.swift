@@ -13,26 +13,26 @@ struct DeviceCardView: View {
     var body: some View {
         InfoCard(
             icon: nil,
-            image: "usb",
             title: dev.name,
-            subtitle: dev.vendor
+            subtitle: dev.vendor,
+            lightbulb: false
         ) {
-            InfoRow(icon: "number", title: "Vendor ID", value: "\(dev.vendorId)")
-            InfoRow(icon: "number", title: "Product ID", value: "\(dev.productId)")
-            InfoRow(icon: "bolt.horizontal", title: "USB Version",
+            InfoRow(title: "vendor_id", value: "\(dev.vendorId)")
+            InfoRow(title: "product_id", value: "\(dev.productId)")
+            InfoRow(title: "usb_version",
                     value: "0x\(String(format: "%04X", dev.usbVersionBCD))")
 
             if let loc = dev.locationId {
-                InfoRow(icon: "mappin.circle", title: "Location ID",
+                InfoRow(title: "location_id",
                         value: String(format: "0x%08X", loc))
             }
 
             if let serial = dev.serialNumber {
-                InfoRow(icon: "barcode", title: "Serial", value: serial)
+                InfoRow(title: "serial", value: serial)
             }
 
             if let speed = dev.speedMbps {
-                InfoRow(icon: "speedometer", title: "Speed", value: "\(speed) Mbps")
+                InfoRow(title: "speed", value: "\(speed) Mbps")
             }
         }
     }
