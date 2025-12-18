@@ -13,7 +13,7 @@ struct LogTabView: View {
 
     var body: some View {
         ScrollView {
-            VStack(spacing: 14) {
+            LazyVStack(spacing: 14) {
                 InfoCard(icon: "info.circle", imageColor: .primary, title: "info".localized, lightbulb: false) {
                     InfoRow(title: "total", value: vm.totalLogAmount)
                 }

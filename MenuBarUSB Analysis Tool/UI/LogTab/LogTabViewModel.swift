@@ -15,7 +15,6 @@ class LogTabViewModel {
     var logs: [(log: ExportedLog.LogEntry, previous: ExportedLog.LogEntry?)] {
         guard let raw = fileManager?.log?.logs else { return [] }
 
-        // ordenar por tempo sem extensões
         let sorted = raw.sorted {
             let f = DateFormatter()
             f.dateFormat = "dd-MM-yyyy HH:mm:ss:SSS"
@@ -29,7 +28,7 @@ class LogTabViewModel {
             let prev = (i > 0) ? sorted[i - 1] : nil
             result.append((sorted[i], prev))
         }
-        return result
+        return result.reversed()
     }
     
     var totalLogAmount: String {

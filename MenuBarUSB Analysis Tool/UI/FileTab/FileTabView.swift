@@ -13,15 +13,13 @@ struct FileTabView: View {
 
     var body: some View {
         VStack {
-            Button("select_file") {
+            Button {
                 vm.openFile()
+            } label: {
+                Text("select_file")
+                    .font(.system(size: 35, weight: .thin))
             }
-            .font(.system(size: 35, weight: .thin))
-            .buttonStyle(.plain)
-            .foregroundStyle(.blue)
             .padding()
-            .background(.gray.opacity(0.1))
-            .cornerRadius(5)
             
             if vm.selectedFile {
                 Text("file_loaded")

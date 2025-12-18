@@ -26,13 +26,22 @@ struct LogEntryCardView: View {
 
     private func timeSinceLast(_ previous: Date, _ current: Date) -> String {
         let interval = current.timeIntervalSince(previous)
-
-        if interval < 60 { return "\(Int(interval))s ago" }
+        
+        if interval < 1 {
+            return "less_than_1_sec".localized
+        }
+        
+        if interval < 60 {
+            return "\(Int(interval))s"
+        }
+        
         let minutes = Int(interval / 60)
-        if minutes < 60 { return "\(minutes)m ago" }
+        if minutes < 60 { return "\(minutes)m" }
+        
         let hours = minutes / 60
-        if hours < 24 { return "\(hours)h ago" }
-        return "\(hours / 24)d ago"
+        if hours < 24 { return "\(hours)h" }
+        
+        return "\(hours / 24)d"
     }
 
     var body: some View {
@@ -44,7 +53,7 @@ struct LogEntryCardView: View {
             imageColor: log.connect ? .green : .red,
             title: log.name,
             subtitle: log.connect ? "connected" : "disconnected",
-            lightbulb: true
+            lightbulb: false
         ) {
             if let d = currentDate {
                 InfoRow(title: "timestamp", value: prettyDate(d))
@@ -53,7 +62,7 @@ struct LogEntryCardView: View {
             }
 
             if let prev = previousDate, let cur = currentDate {
-                InfoRow(title: "since_last", value: timeSinceLast(prev, cur))
+                InfoRow(title: "time_interval", value: timeSinceLast(prev, cur))
             }
         }
     }

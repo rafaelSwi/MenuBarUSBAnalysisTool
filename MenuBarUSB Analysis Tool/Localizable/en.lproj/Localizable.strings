@@ -1,4 +1,5 @@
 "menubarusb_version" = "MenuBarUSB Version";
+"less_than_1_sec" = "Less than 1 second";
 "machine" = "Machine";
 "exported_at" = "Exported At";
 "file_tab" = "File";
@@ -20,5 +21,5 @@
 "connected" = "Connected";
 "disconnected" = "Disconnected";
 "timestamp" = "Timestamp";
-"since_last" = "Since Last";
+"time_interval" = "Time interval";
 "unknown" = "Unknown";
