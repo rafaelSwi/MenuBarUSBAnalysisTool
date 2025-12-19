@@ -50,7 +50,7 @@ struct LogEntryCardView: View {
 
         InfoCard(
             icon: log.connect ? "circle.circle.fill" : "circle.circle",
-            imageColor: log.connect ? .green : .red,
+            imageColor: Color(log.connect ? "LogConnect" : "LogDisconnect"),
             title: log.name,
             subtitle: log.connect ? "connected" : "disconnected",
             lightbulb: false

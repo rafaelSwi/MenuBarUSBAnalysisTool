@@ -13,6 +13,9 @@ struct FileTabView: View {
 
     var body: some View {
         VStack {
+            
+            Spacer()
+            
             Button {
                 vm.openFile()
             } label: {
@@ -24,6 +27,15 @@ struct FileTabView: View {
             if vm.selectedFile {
                 Text("file_loaded")
             }
+            
+            Spacer()
+            
+            HStack {
+                Spacer()
+                Text(vm.appVersion)
+            }
+            .foregroundStyle(.secondary)
+            .padding(.horizontal)
             
         }
         .onAppear {

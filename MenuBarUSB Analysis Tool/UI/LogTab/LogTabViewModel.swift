@@ -11,8 +11,9 @@ import SwiftUI
 @Observable
 class LogTabViewModel {
     var fileManager: SelectedFileManager?
+    typealias LogInfo = [(log: ExportedLog.LogEntry, previous: ExportedLog.LogEntry?)]
 
-    var logs: [(log: ExportedLog.LogEntry, previous: ExportedLog.LogEntry?)] {
+    var logs: LogInfo {
         guard let raw = fileManager?.log?.logs else { return [] }
 
         let sorted = raw.sorted {
@@ -29,6 +30,33 @@ class LogTabViewModel {
             result.append((sorted[i], prev))
         }
         return result.reversed()
+    }
+    
+    func filteredLogs(by term: String) -> LogInfo {
+
+        guard !term.isEmpty else {
+            return logs
+        }
+
+        let parts = term
+            .split(separator: "+")
+            .map { $0.trimmingCharacters(in: .whitespaces).lowercased() }
+
+        let positiveTerms = parts.filter { !$0.hasPrefix("not:") }
+        let blackList = parts
+            .filter { $0.hasPrefix("not:") }
+            .map { $0.replacingOccurrences(of: "not:", with: "") }
+
+        return logs.filter { log in
+            let name = log.log.name.lowercased()
+
+            if blackList.contains(where: { name.contains($0) }) {
+                return false
+            }
+
+            return positiveTerms.isEmpty ||
+                   positiveTerms.contains(where: { name.contains($0) })
+        }
     }
     
     var totalLogAmount: String {

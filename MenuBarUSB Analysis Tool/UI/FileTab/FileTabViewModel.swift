@@ -14,6 +14,11 @@ import UniformTypeIdentifiers
 class FileTabViewModel {
     var fileManager: SelectedFileManager?
     var selectedFile: Bool = false
+    
+    var appVersion: String {
+        let version = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "Unknown"
+        return "MenuBarUSB Analysis Tool v\(version)"
+    }
 
     func openFile() {
         let panel = NSOpenPanel()

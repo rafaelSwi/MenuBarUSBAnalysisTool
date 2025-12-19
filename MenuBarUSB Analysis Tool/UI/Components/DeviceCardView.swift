@@ -9,6 +9,20 @@ import SwiftUI
 
 struct DeviceCardView: View {
     let dev: ExportedLog.Device
+    
+    private func formatSpeed(_ mbps: Int) -> String {
+        let value = Double(mbps)
+        
+        if value >= 1_000_000 {
+            let tbps = value / 1_000_000
+            return String(format: "%.2f Tbps", tbps)
+        } else if value >= 1_000 {
+            let gbps = value / 1_000
+            return String(format: "%.2f Gbps", gbps)
+        } else {
+            return "\(mbps) Mbps"
+        }
+    }
 
     var body: some View {
         InfoCard(
@@ -32,7 +46,7 @@ struct DeviceCardView: View {
             }
 
             if let speed = dev.speedMbps {
-                InfoRow(title: "speed", value: "\(speed) Mbps")
+                InfoRow(title: "speed", value: formatSpeed(speed))
             }
         }
     }
