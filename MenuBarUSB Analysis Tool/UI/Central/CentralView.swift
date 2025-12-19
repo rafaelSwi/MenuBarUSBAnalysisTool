@@ -10,10 +10,11 @@ import SwiftUI
 struct CentralView: View {
     @State private var vm = CentralViewModel()
     @Environment(\.selectedFileManager) var fileManager
+    @AppStorage(StorageKeys.simpleBackground) private var simpleBackground = false
 
     func categoryButton(tab: Tab, label: String) -> some View {
         var inactive: Bool {
-            if tab == .file {
+            if tab == .file || tab == .settings {
                 return false
             } else {
                 return !vm.isFileSelected
@@ -49,15 +50,22 @@ struct CentralView: View {
 
     var body: some View {
         ZStack {
-            CustomBackground()
+            if simpleBackground {
+                Color("SimpleBackground")
+            } else {
+                CustomBackground()
+            }
             VStack {
                 HStack {
                     categoryButton(tab: .file, label: "file_tab")
+                    categoryButton(tab: .settings, label: "settings_tab")
+                    Spacer()
+                        .frame(width: 20)
                     categoryButton(tab: .logs, label: "logs_tab")
                     categoryButton(tab: .devices, label: "devices_tab")
                     categoryButton(tab: .metadata, label: "metadata_tab")
                 }
-                .frame(maxWidth: 600)
+                .frame(maxWidth: 650)
                 .padding(.top, 15)
 
                 Spacer()
@@ -77,6 +85,10 @@ struct CentralView: View {
 
                     if vm.tab == .metadata {
                         MetadataTabView()
+                    }
+                    
+                    if vm.tab == .settings {
+                        SettingsTabView()
                     }
                 }
                 .environment(\.selectedFileManager, fileManager)

@@ -7,8 +7,6 @@
 
 import SwiftUI
 
-import SwiftUI
-
 struct InfoCard<Content: View>: View {
     let icon: String?
     let image: String?
@@ -19,6 +17,7 @@ struct InfoCard<Content: View>: View {
     let content: () -> Content
 
     @State private var isHighlighted = false
+    @AppStorage(StorageKeys.compactLogs) private var compactLogs = false
 
     init(
         icon: String? = nil,
@@ -39,10 +38,9 @@ struct InfoCard<Content: View>: View {
     }
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 10) {
-            // Header
-            HStack(spacing: 8) {
-                if let image {
+        VStack(alignment: .leading, spacing: compactLogs ? 6 : 10) {
+            HStack(spacing: compactLogs ? 6 : 8) {
+                if let image, !compactLogs {
                     Image(image)
                         .resizable()
                         .frame(width: 35, height: 35)
@@ -51,57 +49,53 @@ struct InfoCard<Content: View>: View {
 
                 if let icon {
                     Image(systemName: icon)
-                        .font(.system(size: 18, weight: .medium))
+                        .font(.system(size: compactLogs ? 14 : 18, weight: .medium))
                         .foregroundStyle(imageColor ?? .accent)
                 }
 
-                VStack(alignment: .leading, spacing: 2) {
+                VStack(alignment: .leading, spacing: compactLogs ? 0 : 2) {
                     Text(title.localized)
-                        .font(.headline)
+                        .font(compactLogs ? .subheadline : .headline)
 
                     if let subtitle {
                         Text(subtitle.localized)
-                            .font(.subheadline)
+                            .font(compactLogs ? .caption : .subheadline)
                             .foregroundStyle(.secondary)
                     }
                 }
 
                 Spacer()
-                
+
                 if lightbulb {
                     Button {
-                        toggleHighlight()
+                        isHighlighted.toggle()
                     } label: {
-                        Image(systemName: "lightbulb.circle.fill")
-                            .resizable()
-                            .frame(width: 25, height: 25)
+                        Image(systemName: compactLogs ? "lightbulb.fill" : "lightbulb.circle.fill")
+                            .font(compactLogs ? .system(size: 14) : .system(size: 25))
                             .opacity(isHighlighted ? 1.0 : 0.2)
                     }
                     .buttonStyle(.plain)
                 }
-                
             }
 
-            Divider()
+            if !compactLogs {
+                Divider()
+            }
 
-            VStack(alignment: .leading, spacing: 6) {
+            VStack(alignment: .leading, spacing: compactLogs ? 2 : 6) {
                 content()
+                    .font(compactLogs ? .caption2 : .body)
             }
         }
-        .padding(14)
+        .padding(compactLogs ? 8 : 14)
         .background(
-            RoundedRectangle(cornerRadius: 12, style: .continuous)
+            RoundedRectangle(cornerRadius: compactLogs ? 8 : 12, style: .continuous)
                 .fill(
                     isHighlighted
                     ? Color.yellow.opacity(0.15)
-                    : Color.primary.opacity(0.05)
+                    : Color.primary.opacity(compactLogs ? 0.03 : 0.05)
                 )
         )
         .animation(.easeInOut(duration: 0.15), value: isHighlighted)
-        .contentShape(RoundedRectangle(cornerRadius: 12))
-    }
-
-    private func toggleHighlight() {
-        isHighlighted.toggle()
     }
 }

@@ -36,7 +36,6 @@ class FileTabViewModel {
         do {
             let data = try Data(contentsOf: url)
 
-            // se for .txt, tentar converter para JSON
             let jsonData: Data
             if url.pathExtension.lowercased() == "txt" {
                 if let jsonString = String(data: data, encoding: .utf8)?
@@ -59,16 +58,16 @@ class FileTabViewModel {
                     self.selectedFile = true
                 }
             } catch let DecodingError.keyNotFound(key, context) {
-                print("⚠️ Chave ausente:", key.stringValue, context.debugDescription)
+                print("no key:", key.stringValue, context.debugDescription)
             } catch let DecodingError.typeMismatch(type, context) {
-                print("⚠️ Type mismatch:", type, context.debugDescription)
+                print("type mismatch:", type, context.debugDescription)
             } catch {
-                print("⚠️ Erro geral:", error.localizedDescription)
+                print("general error:", error.localizedDescription)
             }
 
         } catch {
             DispatchQueue.main.async {
-                self.fileManager?.errorMessage = "Falha ao carregar: \(error.localizedDescription)"
+                self.fileManager?.errorMessage = "fail to load: \(error.localizedDescription)"
             }
         }
     }

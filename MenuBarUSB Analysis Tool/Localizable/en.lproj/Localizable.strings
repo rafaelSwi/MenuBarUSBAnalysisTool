@@ -6,6 +6,7 @@
 "logs_tab" = "Logs";
 "devices_tab" = "Devices";
 "metadata_tab" = "Metadata";
+"settings_tab" = "Settings";
 "select_file" = "Select File";
 "file_loaded" = "File loaded";
 "copied" = "Copied";
@@ -28,3 +29,9 @@
 "search_tip_2" = "Exclude terms using \"NOT:\". For example: \"USB + NOT:Keyboard\".";
 "ignore_this_device" = "Ignore this device";
 "hidden" = "Hidden:";
+"download" = "Download";
+"looking_for_updates" = "Looking for updates...";
+"check_for_updates" = "Check for updates";
+"updated" = "Updated";
+"simple_background" = "Simple background";
+"compact_logs" = "Compact logs";

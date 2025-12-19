@@ -10,4 +10,5 @@ enum Tab {
     case devices
     case logs
     case metadata
+    case settings
 }

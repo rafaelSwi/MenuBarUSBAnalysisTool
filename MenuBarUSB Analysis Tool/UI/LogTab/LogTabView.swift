@@ -32,7 +32,7 @@ struct LogTabView: View {
             
         }
         .opacity(searchTerm.isEmpty ? 0.5 : 1.0)
-        .frame(maxWidth: 600)
+        .frame(maxWidth: 650)
         
         if clickedTip {
             
